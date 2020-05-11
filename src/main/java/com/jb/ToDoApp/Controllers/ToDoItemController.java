@@ -1,5 +1,6 @@
 package com.jb.ToDoApp.Controllers;
 
+import com.jb.ToDoApp.DataModels.ToDoItem;
 import com.jb.ToDoApp.DataModels.ToDoList;
 import com.jb.ToDoApp.Repositories.ToDoItemRepository;
 import com.jb.ToDoApp.Repositories.ToDoListRepository;
@@ -26,8 +27,13 @@ public class ToDoItemController {
     }
 
     @PostMapping("/items")
-    public void addNewItemToList(@RequestBody Map<String, Object> newItem){
-        itemService.createNewToDoItem((String)newItem.get("parent"), (String)newItem.get("toDoDescription"));
+    public String addNewItemToList(@RequestBody Map<String, Object> newItem){
+        ToDoItem item = itemService.createNewToDoItem((String)newItem.get("parent"), (String)newItem.get("toDoDescription"));
+        if (item != null){
+            return "Item added.";
+        } else {
+            return "List does not exist.";
+        }
     }
 
     @PutMapping("/items")

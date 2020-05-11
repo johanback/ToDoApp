@@ -17,21 +17,27 @@ public class ItemService {
     @Autowired
     ToDoItemRepository itemRepository;
 
-    public void createNewToDoItem(String parentId, String toDoDescription){
-        ToDoList parent = listRepository.findById(Long.valueOf(parentId)).get();
-        itemRepository.save(new ToDoItem(parent, toDoDescription));
+    public ToDoItem createNewToDoItem(String parentId, String toDoDescription) {
+        Optional<ToDoList> parentOptional = listRepository.findById(Long.valueOf(parentId));
+        if (parentOptional.isPresent()) {
+            ToDoList parent = parentOptional.get();
+            ToDoItem newItem = itemRepository.save(new ToDoItem(parent, toDoDescription));
+            return newItem;
+        } else {
+            return null;
+        }
     }
 
-    public void updateToDoItem(String itemId, String newToDoDescription){
+    public void updateToDoItem(String itemId, String newToDoDescription) {
         Optional<ToDoItem> optionalItem = itemRepository.findById(Long.valueOf(itemId));
-        if (optionalItem.isPresent()){
+        if (optionalItem.isPresent()) {
             ToDoItem itemToUpdate = optionalItem.get();
             itemToUpdate.setToDoDescription(newToDoDescription);
             itemRepository.save(itemToUpdate);
         }
     }
 
-    public void deleteToDoItem(Long itemId){
+    public void deleteToDoItem(Long itemId) {
         itemRepository.deleteById(itemId);
     }
 }

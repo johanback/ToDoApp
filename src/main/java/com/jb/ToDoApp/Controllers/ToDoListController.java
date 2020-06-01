@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins="*", allowedHeaders="*")
@@ -35,9 +36,9 @@ public class ToDoListController {
     }
 
     @PostMapping("/lists")
-    public String createNewList(@RequestParam String listName){
-        ToDoList newList = new ToDoList(listName);
-        toDoListRepository.save(newList);
+    public String createNewList(@RequestBody Map<String, Object> newList){
+        ToDoList newListObject = new ToDoList((String)newList.get("listName"));
+        toDoListRepository.save(newListObject);
         return "Added a new list";
     }
 

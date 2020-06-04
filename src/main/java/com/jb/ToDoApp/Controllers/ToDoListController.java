@@ -36,10 +36,9 @@ public class ToDoListController {
     }
 
     @PostMapping("/lists")
-    public String createNewList(@RequestBody Map<String, Object> newList){
+    public void createNewList(@RequestBody Map<String, Object> newList){
         ToDoList newListObject = new ToDoList((String)newList.get("listName"));
         toDoListRepository.save(newListObject);
-        return "Added a new list";
     }
 
     @DeleteMapping("lists/{listId}")

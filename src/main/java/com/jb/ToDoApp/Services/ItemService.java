@@ -28,11 +28,20 @@ public class ItemService {
         }
     }
 
-    public void updateToDoItem(String itemId, String newToDoDescription) {
+    public void updateToDoItemDescription(String itemId, String newToDoDescription) {
         Optional<ToDoItem> optionalItem = itemRepository.findById(Long.valueOf(itemId));
         if (optionalItem.isPresent()) {
             ToDoItem itemToUpdate = optionalItem.get();
             itemToUpdate.setToDoDescription(newToDoDescription);
+            itemRepository.save(itemToUpdate);
+        }
+    }
+
+    public void updateToDoItemCompletedStatus(String itemId, boolean completed) {
+        Optional<ToDoItem> optionalItem = itemRepository.findById(Long.valueOf(itemId));
+        if (optionalItem.isPresent()) {
+            ToDoItem itemToUpdate = optionalItem.get();
+            itemToUpdate.setCompleted(completed);
             itemRepository.save(itemToUpdate);
         }
     }

@@ -39,8 +39,14 @@ public class ToDoItemController {
 
     @PutMapping("/items")
     public void updateItemInList(@RequestBody Map<String, Object> newItem){
-        itemService.updateToDoItem((String)newItem.get("itemId"), (String)newItem.get("toDoDescription"));
+        itemService.updateToDoItemDescription((String)newItem.get("itemId"), (String)newItem.get("toDoDescription"));
     }
+
+    @PutMapping("/items/update")
+    public void updateCompletedStatusOfItem(@RequestBody Map<String, Object> newItem){
+        itemService.updateToDoItemCompletedStatus((String)newItem.get("itemId"), (boolean)newItem.get("completed"));
+    }
+
 
     @DeleteMapping("/items/{itemId}")
     public void deleteItemFromList(@PathVariable Long itemId){
